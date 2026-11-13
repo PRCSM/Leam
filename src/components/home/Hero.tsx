@@ -57,7 +57,7 @@ export function Hero() {
   return (
     <section ref={root} className="hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden>
-        <Photo src={IMG.heroDancer} alt="" priority sizes="100vw" className="hero-photo" position="62% 28%" />
+        <Photo src={IMG.heroLight} alt="" priority sizes="100vw" className="hero-photo" position="55% 35%" />
         <div className="hero-glow" />
         <div className="hero-fade" />
         <div className="hero-curtain" />

@@ -8,6 +8,7 @@ const u = (id: string) => `https://unsplash.com/photos/${id}/download`;
 
 export const IMG = {
   // Hero & atmosphere
+  heroLight: u("tiMNyeHEkYI"), // hand reaching through golden smoke toward light (Liana S)
   heroDancer: u("zPuyJ-YPfiQ"), // hands raised before a warm-lit stage
   crowd: u("SBOMeuksUnM"), // crowd, hands in the air
   cave: u("UwzalTDCpT4"), // figure in cave under a light beam
