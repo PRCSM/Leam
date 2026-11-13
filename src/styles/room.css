@@ -1,0 +1,367 @@
+/* =====================================================================
+   Live room + chat panel
+   ===================================================================== */
+.live-room {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 12px;
+}
+.lr-main {
+  display: grid;
+  gap: 12px;
+  position: relative;
+  min-width: 0;
+}
+.lr-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #111;
+}
+.lr-stage > .photo {
+  position: absolute;
+  inset: 0;
+}
+.lr-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 25%, transparent 50%, rgba(0, 0, 0, 0.8));
+}
+.lr-reactions {
+  right: 8%;
+  bottom: 18%;
+  font-size: 20px;
+}
+.lr-top {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lr-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 600;
+}
+.lr-mode {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.lr-title {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  right: 30%;
+  display: grid;
+  gap: 4px;
+}
+.lr-title h2 {
+  font-size: clamp(20px, 2.4vw, 34px);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+.lr-title a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lr-self {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 22%;
+  min-width: 110px;
+  aspect-ratio: 0.8;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #1d1d1d;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: grid;
+  place-items: center;
+}
+.lr-self video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+.lr-self span {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.lr-speakers {
+  display: flex;
+  gap: 14px;
+  padding: 4px 4px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.lr-speaker {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  flex: none;
+}
+.lr-speaker-av {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.lr-speaker-av > .photo {
+  position: absolute;
+  inset: 0;
+}
+.lr-speaker-av.is-speaking {
+  outline: 2px solid var(--spark);
+  outline-offset: 2px;
+  animation: speak-out 1.6s ease-in-out infinite;
+}
+@keyframes speak-out {
+  50% {
+    outline-color: rgba(247, 233, 103, 0.3);
+  }
+}
+.lr-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 46px;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.25s, transform 0.25s var(--ease), color 0.25s;
+}
+.lr-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.lr-btn:active {
+  transform: scale(0.95);
+}
+.lr-btn.is-disabled {
+  color: var(--text-3);
+}
+.lr-btn.is-on {
+  background: var(--spark);
+  color: #000;
+}
+.lr-btn-wide {
+  padding: 0 18px;
+}
+.lr-leave {
+  margin-left: auto;
+  background: var(--live);
+  color: #160800;
+}
+.lr-leave:hover {
+  background: #ff8556;
+}
+.lr-toast {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 5;
+}
+.lr-toast span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(247, 247, 245, 0.95);
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  animation: toast-in 0.5s var(--ease);
+  white-space: nowrap;
+  max-width: 80vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.lr-note {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  border-radius: 22px;
+  background: var(--bg-raised);
+  border: 1px solid var(--hair-2);
+  overflow: hidden;
+}
+.live-room .chat-panel {
+  height: 100%;
+  max-height: 640px;
+}
+.is-compact .chat-panel {
+  max-height: 520px;
+}
+.chat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hair-2);
+  font-size: 13px;
+}
+.chat-head strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 220px;
+  overscroll-behavior: contain;
+}
+.chat-item {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+}
+.chat-item p {
+  color: #dcdcd9;
+  overflow-wrap: anywhere;
+}
+.chat-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.chat-meta em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--spark);
+  border: 1px solid rgba(247, 233, 103, 0.3);
+  border-radius: 999px;
+  padding: 0 6px;
+}
+.chat-meta time {
+  color: var(--text-3);
+  font-size: 11px;
+}
+.chat-item.is-mine b {
+  color: var(--spark);
+}
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--hair-2);
+}
+.chat-form .input {
+  height: 42px;
+  border-radius: 999px;
+}
+.chat-send {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  background: var(--text);
+  color: #000;
+}
+.chat-send:hover {
+  background: #fff;
+}
+.chat-send[disabled] {
+  opacity: 0.35;
+}
+.chat-sparkle {
+  position: absolute;
+  top: 16px;
+  right: 120px;
+  color: var(--spark);
+  opacity: 0;
+}
+
+@media (max-width: 960px) {
+  .live-room {
+    grid-template-columns: 1fr;
+  }
+  .live-room .chat-panel {
+    max-height: 460px;
+  }
+  .lr-title {
+    right: 16px;
+  }
+}
+@media (max-width: 560px) {
+  .lr-stage {
+    aspect-ratio: 4 / 5;
+  }
+  .lr-btn-wide {
+    flex: 1 0 100%;
+    order: -1;
+  }
+  .lr-leave {
+    margin-left: 0;
+  }
+}
+
+/* full-screen room page */
+.room-page {
+  padding-top: calc(var(--header-h) + 16px);
+  padding-bottom: 40px;
+}
+.room-crumbs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.room-crumbs a:hover {
+  color: var(--text);
+}
